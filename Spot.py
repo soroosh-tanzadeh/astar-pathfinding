@@ -1,29 +1,28 @@
 import pygame
 
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 255, 0)
-YELLOW = (255, 255, 0)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-PURPLE = (128, 0, 128)
-ORANGE = (255, 165, 0)
-GREY = (128, 128, 128)
-TURQUOISE = (64, 224, 208)
+RED = [255, 0, 0]
+GREEN = [0, 255, 0]
+BLUE = [0, 255, 0]
+YELLOW = [255, 255, 0]
+WHITE = [255, 255, 255]
+BLACK = [0, 0, 0]
+PURPLE = [128, 0, 128]
+ORANGE = [255, 165, 0]
+GREY = [128, 128, 128]
+TURQUOISE = [64, 224, 208]
 
 
 class Spot:
-    def __init__(self, row, col, width, total_rows):
+    def __init__(self, row, col, width, total_rows, color=WHITE):
         self.row = row
         self.col = col
         self.width = width
         self.x = row * width
         self.y = col * width
-        self.color = WHITE
+        self.color = color
         self.neighbors = []
         self.width = width
         self.total_rows = total_rows
-
     #############################
     # Getter Functions
     #############################
@@ -31,8 +30,14 @@ class Spot:
     def get_pos(self):
         return (self.row, self.col)
 
+    def get_width(self):
+        return self.width
+
+    def get_color(self):
+        return self.color
+
     def is_closed(self):
-        return self.color == RED
+        return self.color == YELLOW
 
     def is_open(self):
         return self.color == GREEN
@@ -44,7 +49,7 @@ class Spot:
         return self.color == PURPLE
 
     def is_start(self):
-        return self.color == YELLOW
+        return self.color == TURQUOISE
 
     def reset(self):
         self.color = WHITE
@@ -55,8 +60,9 @@ class Spot:
     #############################
     # Setter Functions
     #############################
+
     def make_closed(self):
-        self.color = RED
+        self.color = YELLOW
 
     def make_open(self):
         self.color = GREEN
@@ -65,13 +71,13 @@ class Spot:
         self.color = BLACK
 
     def make_path(self):
-        self.color = RED
+        self.color = ORANGE
 
     def make_end(self):
         self.color = PURPLE
 
     def make_start(self):
-        self.color = YELLOW
+        self.color = TURQUOISE
 
     # Draw Function
     def draw(self, win):

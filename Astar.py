@@ -12,8 +12,9 @@ def h(p1, p2):
 def reconstruct_path(came_from, current, draw):
     while current in came_from:
         current = came_from[current]
-        current.make_path()
-        draw()
+        if(not(current.is_start())):
+            current.make_path()
+            draw()
 
 
 def algorithm(draw, grid, start, end):
@@ -57,4 +58,8 @@ def algorithm(draw, grid, start, end):
                     count += 1
                     open_set.put((f_score[neighbor], count, neighbor))
                     open_set_hash.add(neighbor)
+                    neighbor.make_open()
+        if current != start:
+            current.make_closed()
+        draw()
     return False
