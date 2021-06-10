@@ -10,11 +10,16 @@ def h(p1, p2):
 
 
 def reconstruct_path(came_from, current, draw):
+    path = []
     while current in came_from:
         current = came_from[current]
         if(not(current.is_start())):
             current.make_path()
+            path.append(current.get_pos())
             draw()
+        else:
+            print("is_start")
+    return path
 
 
 def algorithm(draw, grid, start, end):
@@ -34,14 +39,13 @@ def algorithm(draw, grid, start, end):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                exit()
         current = open_set.get()[2]
         open_set_hash.remove(current)
 
         if (current == end):
-            reconstruct_path(came_from, current, lambda: draw)
+            path = reconstruct_path(came_from, current, lambda: draw)
             end.make_end()
-            return came_from
+            return path
 
         current.update_neighbors(grid)
 

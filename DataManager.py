@@ -35,9 +35,11 @@ class GridFile:
                 grid[row].append(spot)
         return grid, start, end
 
-    def save(self, grid, total_rows):
+    def save(self, grid, total_rows, came_from):
         data = {
             "width": grid[0][0].get_width(),
+            'came_from': came_from,
+            "path_cost": len(came_from),
             "total_rows": total_rows,
             "grid": []
         }

@@ -89,7 +89,9 @@ def main(win, width, saveFunction=None, grid=None, start=None, end=None):
                     resetGrid(grid, win)
                 elif event.key == pygame.K_s:
                     if(saveFunction != None):
-                        saveFunction(grid, ROWS)
+                        path = algorithm(lambda:  draw(win, grid, ROWS, width),
+                                         grid, start, end)
+                        saveFunction(grid, ROWS, path)
 
             if event.type == pygame.QUIT:
                 run = False
