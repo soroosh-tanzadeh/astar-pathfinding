@@ -21,7 +21,6 @@ class Spot:
         self.y = col * width
         self.color = color
         self.neighbors = []
-        self.width = width
         self.total_rows = total_rows
     #############################
     # Getter Functions
@@ -120,6 +119,3 @@ class Spot:
         # Top Right
         if((col < total_rows - 1 and row > 0) and not(grid[row - 1][col + 1].is_barrier())):
             self.neighbors.append(grid[row - 1][col + 1])
-
-    def __it__(self, other):
-        return False

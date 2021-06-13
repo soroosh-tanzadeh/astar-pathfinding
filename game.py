@@ -2,7 +2,6 @@ from tkinter.constants import NONE
 import pygame
 from Astar import algorithm
 from Spot import Spot
-from DataManager import GridFile
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)

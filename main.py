@@ -1,5 +1,5 @@
 from tkinter.constants import W
-from DataManager import GridFile
+import DataManager
 from tkinter import Button, Frame, Label, Tk
 from tkinter.filedialog import asksaveasfile, askopenfile
 import pygame
@@ -12,8 +12,7 @@ def saveFunction(grid, rows, path):
     selectedFile = asksaveasfile(
         filetypes=files, defaultextension=files)
     if(selectedFile != None):
-        file = GridFile(selectedFile.name)
-        file.save(grid, rows, path)
+        DataManager.save(selectedFile, grid, rows, path)
 
 
 def newBoard():
@@ -29,11 +28,10 @@ def loadGame():
     selectedFile = askopenfile(
         filetypes=files, defaultextension=files)
     if(selectedFile != None):
-        file = GridFile(selectedFile.name)
         width = 800
         window = pygame.display.set_mode((width, width))
         pygame.display.set_caption("A* Pathfiding")
-        grid, start, end = file.read()
+        grid, start, end = DataManager.read(selectedFile)
         game.main(window, width, lambda grid,
                   rows, path: saveFunction(grid, rows, path), grid, start, end)
 
