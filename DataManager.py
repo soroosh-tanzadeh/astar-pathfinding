@@ -1,5 +1,5 @@
 import json
-from Spot import Spot
+import Spot
 
 
 def read(file):
@@ -16,15 +16,15 @@ def read(file):
         grid.append([])
         for column in range(len(unparsedGrid)):
             spotType = unparsedGrid[row][column]
-            spot = Spot(row, column, width, totalRows)
+            spot = Spot.create_spot(row, column, width, totalRows)
             if(spotType == "start"):
                 start = spot
-                spot.make_start()
+                spot = Spot.make_start(spot)
             elif(spotType == 'end'):
                 end = spot
-                spot.make_end()
+                spot = Spot.make_end(spot)
             elif(spotType == 'barrier'):
-                spot.make_barrier()
+                spot = Spot.make_barrier(spot)
 
             grid[row].append(spot)
     return grid, start, end
@@ -32,7 +32,7 @@ def read(file):
 
 def save(file, grid, total_rows, came_from):
     data = {
-        "width": grid[0][0].get_width(),
+        "width": Spot.get_width(grid[0][0]),
         'came_from': came_from,
         "path_cost": len(came_from),
         "total_rows": total_rows,
@@ -43,11 +43,11 @@ def save(file, grid, total_rows, came_from):
         for column in range(len(grid[row])):
             spot = grid[row][column]
             spotType = "none"
-            if(spot.is_barrier()):
+            if(Spot.is_barrier(spot)):
                 spotType = "barrier"
-            elif(spot.is_end()):
+            elif(Spot.is_end(spot)):
                 spotType = "end"
-            elif(spot.is_start()):
+            elif(Spot.is_start(spot)):
                 spotType = "start"
 
             data['grid'][row].append(spotType)

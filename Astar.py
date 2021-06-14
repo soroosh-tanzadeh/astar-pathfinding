@@ -1,4 +1,5 @@
 import math
+import Spot
 from queue import PriorityQueue
 import pygame
 
@@ -11,11 +12,11 @@ def h(p1, p2):
 
 def reconstruct_path(came_from, current, draw):
     path = []
-    while current in came_from:
-        current = came_from[current]
-        if(not(current.is_start())):
-            current.make_path()
-            path.append(current.get_pos())
+    while current['id'] in came_from:
+        current = came_from[current['id']]
+        if(not(Spot.is_start(current))):
+            current = Spot.make_path(current)
+            path.append(Spot.get_pos(current))
             draw()
         else:
             print("is_start")
@@ -27,13 +28,13 @@ def algorithm(draw, grid, start, end):
     open_set = PriorityQueue()
     open_set.put((0, count, start))
     came_from = {}
-    g_score = {spot: float("inf") for row in grid for spot in row}
-    g_score[start] = 0
+    g_score = {spot['id']: float("inf") for row in grid for spot in row}
+    g_score[start['id']] = 0
 
-    f_score = {spot: float("inf") for row in grid for spot in row}
-    f_score[start] = h(start.get_pos(), end.get_pos())
+    f_score = {spot['id']: float("inf") for row in grid for spot in row}
+    f_score[start['id']] = h(Spot.get_pos(start), Spot.get_pos(end))
 
-    open_set_hash = {start}
+    open_set_hash = [start]
 
     while not(open_set.empty()):
         for event in pygame.event.get():
@@ -44,26 +45,27 @@ def algorithm(draw, grid, start, end):
 
         if (current == end):
             path = reconstruct_path(came_from, current, lambda: draw)
-            end.make_end()
+            end = Spot.make_end(end)
             return path
 
-        current.update_neighbors(grid)
+        current = Spot.update_neighbors(current, grid)
 
-        for neighbor in current.neighbors:
-            temp_g_score = g_score[current] + 1
+        for neighbor in current['neighbors']:
+            temp_g_score = g_score[current['id']] + 1
 
-            if(temp_g_score < g_score[neighbor]):
-                came_from[neighbor] = current
-                g_score[neighbor] = temp_g_score
-                f_score[neighbor] = temp_g_score + \
-                    h(neighbor.get_pos(), end.get_pos())
+            if(temp_g_score < g_score[neighbor['id']]):
+                came_from[neighbor['id']] = current
+                g_score[neighbor['id']] = temp_g_score
+                f_score[neighbor['id']] = temp_g_score + \
+                    h(Spot.get_pos(neighbor), Spot.get_pos(end))
 
                 if neighbor not in open_set_hash:
                     count += 1
-                    open_set.put((f_score[neighbor], count, neighbor))
-                    open_set_hash.add(neighbor)
-                    neighbor.make_open()
+                    open_set.put(
+                        (f_score[neighbor['id']], count, neighbor))
+                    open_set_hash.append(neighbor)
+                    neighbor = Spot.make_open(neighbor)
         if current != start:
-            current.make_closed()
+            current = Spot.make_closed(current)
         draw()
     return False

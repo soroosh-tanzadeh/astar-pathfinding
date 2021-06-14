@@ -1,7 +1,7 @@
 from tkinter.constants import NONE
 import pygame
 from Astar import algorithm
-from Spot import Spot
+import Spot
 
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -21,18 +21,19 @@ def make_grid(rows, width):
     for i in range(rows):
         grid.append([])
         for j in range(rows):
-            spot = Spot(i, j, gap, rows)
+            spot = Spot.create_spot(i, j, gap, rows)
             grid[i].append(spot)
 
     return grid
 
 
 def resetGrid(grid, window):
-    for column in grid:
-        for spot in column:
-            if(not(spot.is_barrier())):
-                spot.reset()
-                spot.draw(window)
+    for row in range(len(grid)):
+        for column in range(len(grid)):
+            spot = grid[row][column]
+            if(not(Spot.is_barrier(spot))):
+                grid[row][column] = Spot.reset(spot)
+                Spot.draw(spot, window)
 
 
 def draw_grid(win, rows, width):
@@ -48,7 +49,7 @@ def draw(win, grid, rows, width):
 
     for row in grid:
         for spot in row:
-            spot.draw(win)
+            Spot.draw(spot, win)
     draw_grid(win, rows, width)
     pygame.display.update()
 
@@ -100,31 +101,35 @@ def main(win, width, saveFunction=None, grid=None, start=None, end=None):
                 row, col = get_clicked_pos(pos, ROWS, width)
 
                 spot = grid[row][col]
-                if(spot.is_empty()):
+                if(Spot.is_empty(spot)):
                     if(not(start)):
+                        spot = Spot.make_start(spot)
+                        grid[row][col] = spot
                         start = spot
-                        start.make_start()
                     elif(not(end)):
+                        spot = Spot.make_end(spot)
+                        grid[row][col] = spot
                         end = spot
-                        end.make_end()
                     else:
-                        spot.make_barrier()
+                        spot = Spot.make_barrier(spot)
+                        grid[row][col] = spot
 
-                    spot.draw(win)
+                    Spot.draw(spot, win)
 
             elif pygame.mouse.get_pressed()[2]:
                 pos = pygame.mouse.get_pos()
                 row, col = get_clicked_pos(pos, ROWS, width)
                 spot = grid[row][col]
 
-                if(not(spot.is_empty())):
+                if(not(Spot.is_empty(spot))):
 
-                    if(spot.is_start()):
+                    if(Spot.is_start(spot)):
                         start = None
-                    elif(spot.is_end()):
+                    elif(Spot.is_end(spot)):
                         end = None
 
-                    spot.reset()
-                    spot.draw(win)
+                    spot = Spot.reset(spot)
+                    grid[row][col] = spot
+                    Spot.draw(spot, win)
 
     pygame.quit()
