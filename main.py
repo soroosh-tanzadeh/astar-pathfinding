@@ -52,17 +52,20 @@ load_button.grid(row=0, column=1, pady=4, padx=4)
 content = Frame(root, background="#FFF")
 content.pack(side="bottom", fill="both", expand=True)
 
-line_1 = Label(text="C : Check Path that you draw",
+line_1 = Label(text="P : Start Drawing Path",
                master=content, background="#FFF")
-line_2 = Label(text="S : Save The Board", master=content, background="#FFF")
-line_3 = Label(text="Space : Run A* algorithm",
+line_2 = Label(text="C : Check Path that you draw",
                master=content, background="#FFF")
-line_4 = Label(
+line_3 = Label(text="S : Save The Board", master=content, background="#FFF")
+line_4 = Label(text="Space : Run A* algorithm",
+               master=content, background="#FFF")
+line_5 = Label(
     text="R : Reset Board (Keep barriers but remove open, closed, path, start and end nodes)", background="#FFF", master=content)
 
 line_1.grid(row=1, column=0, pady=4, padx=1, sticky=W)
 line_2.grid(row=2, column=0, pady=4, padx=1, sticky=W)
 line_3.grid(row=3, column=0, pady=4, padx=1, sticky=W)
 line_4.grid(row=4, column=0, pady=4, padx=1, sticky=W)
+line_5.grid(row=4, column=0, pady=4, padx=1, sticky=W)
 
 root.mainloop()

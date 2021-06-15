@@ -4,5 +4,6 @@
         "asksaveasfile",
         "pady",
         "pygame"
-    ]
+    ],
+    "python.pythonPath": "python3"
 }

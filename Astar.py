@@ -68,4 +68,6 @@ def algorithm(draw, grid, start, end):
         if current != start:
             current = Spot.make_closed(current)
         draw()
+
+    print("END")
     return False

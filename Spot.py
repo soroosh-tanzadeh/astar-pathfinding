@@ -31,6 +31,9 @@ def get_pos(spot):
     return (spot['row'], spot['col'])
 
 
+def is_path(spot):
+    return spot['color'] == ORANGE
+
 def get_width(spot):
     return spot['width']
 
