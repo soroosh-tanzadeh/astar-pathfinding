@@ -66,6 +66,6 @@ line_1.grid(row=1, column=0, pady=4, padx=1, sticky=W)
 line_2.grid(row=2, column=0, pady=4, padx=1, sticky=W)
 line_3.grid(row=3, column=0, pady=4, padx=1, sticky=W)
 line_4.grid(row=4, column=0, pady=4, padx=1, sticky=W)
-line_5.grid(row=4, column=0, pady=4, padx=1, sticky=W)
+line_5.grid(row=5, column=0, pady=4, padx=1, sticky=W)
 
 root.mainloop()
